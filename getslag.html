@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Slang from Database</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        </style>
+
+
+</head>
+<body>
+    <h1>Find Slang from Database</h1>
+    <label for="word">Enter Word:</label>
+    <input type="text" id="word" name="word" required>
+    <label for="lang">Enter Language:</label>
+    <input type="text" id="lang" name="lang" required>
+    <button onclick="findSlangFromDatabase()">Find Slang</button>
+    <p id="result"></p>
+
+    <script>
+        function findSlangFromDatabase() {
+            const word = document.getElementById('word').value;
+            const lang = document.getElementById('lang').value;
+
+            fetch(`/getSlangFromDatabase?word=${word}&lang=${lang}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').innerText = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText = 'Error occurred. Please try again.';
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('public/doctor_strange_multiverse_of_m_1200x768.jpeg');
+    background-color: rgba(244, 244, 244, 0.8); /* Set the alpha value (0.8 for 80% opacity) */
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin-top: 15%;
+}
+    
+    .alert-box {
+        display: none;
+        background-color: #f44336;
+        color: #fff;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
+    form {
+        max-width: 400px;
+        margin: 50px auto;
+        opacity: 0.7;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+    
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+    
+    button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+    
+    .link {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .link:hover {
+        text-decoration: underline;
+    }
+
+    </style>
+
+    <title>Register Page</title>
+
+</head>
+<body>
+
+    <div class="alert-box">
+        <p class="alert"></p>
+    </div>
+
+    <form id="registerForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Register</button>
+        <br>
+        <a href="/" class="link">Already have an account? Log in here</a>
+    </form>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting in the traditional way
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/register-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect; // Redirect to the specified page
+                } else {
+                    console.log('Registration failed:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during registration:', error);
+            });
+        });
+    </script>
+    
+</body>
+</html>
